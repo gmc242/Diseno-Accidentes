@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diseno-Accidentes", "Diseno-Accidentes\Diseno-Accidentes.csproj", "{EC6C0F90-C1FB-4744-9A46-F74BD77FC65D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC6C0F90-C1FB-4744-9A46-F74BD77FC65D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC6C0F90-C1FB-4744-9A46-F74BD77FC65D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC6C0F90-C1FB-4744-9A46-F74BD77FC65D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC6C0F90-C1FB-4744-9A46-F74BD77FC65D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BE69CEC0-2E7E-411E-A82B-5B641FF16B72}
+	EndGlobalSection
+EndGlobal
