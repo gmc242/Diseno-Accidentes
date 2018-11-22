@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "Index";
+    List<String> filtros = ViewData["filtros"] as List<String>;
+    List<String> filtrosUsados = ViewData["filtrosUsados"] as List<String>;
+}
+
+<h2>Consultas Dinámicas por Ubicación Geográfica</h2>
+
+<br />
+
+<div class="container">
+
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col">
+                <p>Seleccione el o los puntos que desea consultar.</p>
+                <div class="row" id="contenedorMapa">
+
+                </div>
+            </div>
+
+            <div class="col-8" id="contenedorFiltros">
+
+                <p>Ingrese los filtros que desea utilizar para su consulta.</p>
+
+                <form id="formFiltros" method="post" action="@Url.Action("AnadirFiltro")">
+
+                    <div class="row">
+
+                        <div class="col-3 input-group">
+                            <label class="input-group-text">Filtro:</label>
+                            <select id="selFiltro" name="filtro" class="form-control" onchange="obtenerDatosFiltro(this)">
+                                @foreach (String filtro in filtros)
+                                {
+                                    <option value=@filtro>
+                                        @filtro
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-5 input-group">
+                            <label class="input-group-text">Valor por utilizar:</label>
+                            <select name="valorFiltro" id="selectFiltros" class="form-control"></select>
+                        </div>
+
+                        <div class="col">
+                            <button type="submit" class="btn btn-outline-light" style="border-color:indigo; color:indigo">Agregar Filtro</button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br />
+
+    <div class="container-fluid">
+
+        <div class="d-flex flex-row">
+            @foreach (String filtro in filtrosUsados)
+            {
+                <div class="mr-1">
+                    <button type="button" class="btn btn-dark" style="background-color:indigo" onclick="">
+                        @filtro<span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+            }
+            @if (filtrosUsados.Count > 0)
+            {
+                <div class="mr-1">
+                    <form method="get" action="@Url.Action("ResetFiltros")">
+                        <button type="submit" class="btn btn-dark" sytle="background-color:indigo">
+                            Reseatear Filtros <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </form>
+                </div>
+            }
+        </div>
+
+    </div>
+
+    <br />
+
+    <div class="container">
+        <form id="formConsulta" action="@Url.Action("RealizarConsulta")">
+
+            <div class="row">
+
+                <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Año inicial</label>
+                    </div>
+                    <select class="form-control custom-select" name="anioInicial">
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                    </select>
+                </div>
+
+                <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Año Final</label>
+                    </div>
+                    <select class="form-control custom-select" name="anioFinal">
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <button type="button" onclick="realizarConsulta()" class="btn btn-outline-dark" style="border-color:indigo; color:indigo">Realizar Consulta</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <br />
+
+    <div class="container">
+        <div class="row">
+            <div class="row" id="contenedorPrincipal"></div>
+        </div>
+        <div class="row">
+            <div class="row justify-content-xl-center" id="contenedorChart"></div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var sel = document.getElementById('selFiltro');
+        obtenerDatosFiltro(sel);
+    });
+</script>

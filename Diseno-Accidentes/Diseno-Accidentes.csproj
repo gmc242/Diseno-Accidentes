@@ -184,11 +184,37 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controlador\ConsultaDinamicaHelper.cs" />
+    <Compile Include="Controlador\ConsultaIndicadorHelper.cs" />
+    <Compile Include="Controllers\ConsultaDinamicaController.cs" />
+    <Compile Include="Controllers\ConsultaIndicadorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Accidente.cs" />
+    <Compile Include="Models\Canton.cs" />
+    <Compile Include="Models\Consultas\Consulta.cs" />
+    <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaAnio.cs" />
+    <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaLesion.cs" />
+    <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaProvincia.cs" />
+    <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaRol.cs" />
+    <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaSexo.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltrada.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaAnios.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaLesion.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaProvincia.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaRol.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaSexo.cs" />
+    <Compile Include="Models\Distrito.cs" />
+    <Compile Include="Models\Fecha.cs" />
+    <Compile Include="Models\Consultas\IConsultable.cs" />
+    <Compile Include="Models\ISerializableJSON.cs" />
+    <Compile Include="Models\Lesion.cs" />
+    <Compile Include="Models\Persona.cs" />
+    <Compile Include="Models\Provincia.cs" />
+    <Compile Include="Models\Rol.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -255,6 +281,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\Site.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -282,10 +309,12 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\ConsultaDinamica\Index.cshtml" />
+    <Content Include="Views\ConsultaIndicador\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\ConsultaObserver\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
