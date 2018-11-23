@@ -38,11 +38,11 @@ namespace Diseno_Accidentes.Models.Consultas.Consultas_Filtradas
             // Si los filtros ya contienen algún filtro del mismo tipo, debe usar un or en una posición inteligente
             if (YaEnConsulta())
             {
-                int indexSF = consulta.ObtenerFiltros().IndexOf("l.descripcion");
+                int indexSF = consulta.ObtenerFiltros().IndexOf("l.Descripcion");
                 int indexFF = consulta.ObtenerFiltros().Substring(indexSF).IndexOf("AND");
                 indexFF = (indexFF == -1) ? consulta.ObtenerFiltros().Length : indexSF + indexFF;
 
-                string filtros = consulta.ObtenerFiltros().Substring(0, indexSF) + " (l.descripcion= '" + lesion_str + "' OR " +
+                string filtros = consulta.ObtenerFiltros().Substring(0, indexSF) + " (l.Descripcion= '" + lesion_str + "' OR " +
                     consulta.ObtenerFiltros().Substring(indexSF, (indexFF - indexSF)) + ")";
 
                 try

@@ -186,7 +186,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controlador\ConsultaDinamicaHelper.cs" />
     <Compile Include="Controlador\ConsultaIndicadorHelper.cs" />
-    <Compile Include="Controlador\FactoryConsulta.cs" />
+    <Compile Include="Controlador\FuncionalidadesExtra.cs" />
     <Compile Include="Controllers\ConsultaDinamicaController.cs" />
     <Compile Include="Controllers\ConsultaIndicadorController.cs" />
     <Compile Include="Controllers\ConsultaObserverController.cs" />

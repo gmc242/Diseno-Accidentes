@@ -9,7 +9,7 @@ using System.Web;
 
 namespace Diseno_Accidentes.Controlador
 {
-    public static class FactoryConsulta
+    public static class FuncionalidadesExtra
     {
         public static IConsultable<int> ObtenerConsultaFiltrada(String tipo, IConsultable<int> consulta, String valor)
         {

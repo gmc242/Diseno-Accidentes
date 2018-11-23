@@ -27,7 +27,7 @@ namespace Diseno_Accidentes.Controllers
             foreach (String indicador in indicadores)
             {
 
-                IConsultable<int> consulta = FactoryConsulta.ObtenerConsultaAgrupada(indicador);
+                IConsultable<int> consulta = FuncionalidadesExtra.ObtenerConsultaAgrupada(indicador);
                 res_consultas.Add(consulta.AplicarConsulta());
 
             }

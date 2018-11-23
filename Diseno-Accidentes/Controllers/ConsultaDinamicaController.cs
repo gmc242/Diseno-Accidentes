@@ -28,7 +28,7 @@ namespace Diseno_Accidentes.Controllers
         {
             String filtro = ((String[])seleccion)[0];
 
-            List<String> valores = FactoryConsulta.ObtenerValores(filtro);
+            List<String> valores = FuncionalidadesExtra.ObtenerValores(filtro);
 
             return Json(valores);
 
@@ -46,7 +46,7 @@ namespace Diseno_Accidentes.Controllers
             // Maneja cuando el filtro ya existe
             if(!ConsultaDinamicaHelper.GetFiltrosActuales().Contains(filtro))
             {
-                IConsultable<int> consulta = FactoryConsulta.ObtenerConsultaFiltrada(
+                IConsultable<int> consulta = FuncionalidadesExtra.ObtenerConsultaFiltrada(
                     nombreFiltro, ConsultaDinamicaHelper.GetConsulta(), valorFiltroReal);
 
                 ConsultaDinamicaHelper.SetConsulta(consulta);

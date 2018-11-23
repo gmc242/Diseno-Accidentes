@@ -25,7 +25,7 @@ namespace Diseno_Accidentes.Controllers
         {
             string indicador_str = ((String[])indicador)[0];
 
-            IConsultable<int> consulta = FactoryConsulta.ObtenerConsultaAgrupada(indicador_str);
+            IConsultable<int> consulta = FuncionalidadesExtra.ObtenerConsultaAgrupada(indicador_str);
             ConsultaIndicadorHelper.SetConsulta(consulta);
 
             return Json(ConsultaIndicadorHelper.GetConsulta().AplicarConsulta());
