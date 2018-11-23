@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>@ViewBag.Title</title>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload=
+        {'modules':[{'name':'visualization','version':'1.1',
+            'packages': ['corechart', 'bar']}]}">
+    </script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
@@ -36,7 +39,7 @@
                     <a class="nav-link" href="@Url.Action("Index", "ConsultaIndicador")">Consultas Por Indicador</a>
                 </li>
                 <li class="nav-item barra-item">
-                    <a class="nav-link">Consultas en Tiempo Real</a>
+                    <a class="nav-link" href="@Url.Action("Index", "ConsultaObserver")">Consultas en Tiempo Real</a>
                 </li>
             </ul>
         </div>
@@ -46,7 +49,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Kevin Jiménez - XXXXXXXX & Gerardo Monge - 2015145533</p>
+            <p>&copy; @DateTime.Now.Year - Kevin Jiménez - 2014081225 & Gerardo Monge - 2015145533</p>
         </footer>
     </div>
 

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Diseno_Accidentes.Models.Consultas.Consultas_Agrupadas
 {
-    public class ConsultaAgrupadaSexo : Consulta
+    public class ConsultaAgrupadaSexo : ConsultaAgrupada
     {
 
         public ConsultaAgrupadaSexo() : base("s.Nombre") { }

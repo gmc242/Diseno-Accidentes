@@ -27,44 +27,11 @@ namespace Diseno_Accidentes.Controllers
         public JsonResult ObtenerDatosFiltro(Object seleccion)
         {
             String filtro = ((String[])seleccion)[0];
-            switch (filtro)
-            {
-                case "Sexo":
-                    {
-                        var value = Json(Enum.GetValues(typeof(Models.Persona.Sexo))
-                        .Cast<Models.Persona.Sexo>()
-                        .Select(e => e.ToString())
-                        .ToList());
-                        return value;
-                    }
-                case "Lesion":
-                    {
-                        var value = Json(Enum.GetValues(typeof(Models.Lesion.TipoLesion))
-                        .Cast<Models.Lesion.TipoLesion>()
-                        .Select(e => e.ToString().Replace("_", " "))
-                        .ToList());
-                        return value;
-                    }
-                case "Rol":
-                    {
-                        var value = Json(Enum.GetValues(typeof(Models.Rol.TipoRol))
-                        .Cast<Models.Rol.TipoRol>()
-                        .Select(e => e.ToString().Replace("_", " "))
-                        .ToList());
-                        return value;
-                    }
-                case "Provincia":
-                    {
-                        List<String> provincias = new List<string>()
-                            { "San Jose", "Cartago", "Alajuela", "Heredia", "Puntarenas", "Guanacaste", "Limon" };
 
-                        var value = Json(provincias);
+            List<String> valores = FactoryConsulta.ObtenerValores(filtro);
 
-                        return value;
-                    }
-                default:
-                    return Json("");
-            }
+            return Json(valores);
+
         }
 
         [HttpPost]
@@ -79,37 +46,10 @@ namespace Diseno_Accidentes.Controllers
             // Maneja cuando el filtro ya existe
             if(!ConsultaDinamicaHelper.GetFiltrosActuales().Contains(filtro))
             {
-                switch (nombreFiltro)
-                {
-                    case "Sexo":
-                        {
-                            ConsultaDinamicaHelper.SetConsulta(new ConsultaFiltradaSexo(ConsultaDinamicaHelper.GetConsulta(),
-                                (Persona.Sexo)Enum.Parse(typeof(Persona.Sexo), valorFiltroReal)));
-                            break;
-                        }
-                    case "Lesion":
-                        {
-                            ConsultaDinamicaHelper.SetConsulta(new ConsultaFiltradaLesion(ConsultaDinamicaHelper.GetConsulta(),
-                                (Lesion.TipoLesion)Enum.Parse(typeof(Lesion.TipoLesion), valorFiltroReal)));
-                            break;
-                        }
-                    case "Rol":
-                        {
-                            ConsultaDinamicaHelper.SetConsulta(new ConsultaFiltradaRol(ConsultaDinamicaHelper.GetConsulta(),
-                                (Rol.TipoRol)Enum.Parse(typeof(Rol.TipoRol), valorFiltroReal)));
-                            break;
-                        }
-                    case "Provincia":
-                        {
-                            ConsultaDinamicaHelper.SetConsulta(new ConsultaFiltradaProvincia(ConsultaDinamicaHelper.GetConsulta(),
-                                valorFiltroReal));
-                            break;
-                        }
-                    default:
-                        {
-                            break;
-                        }
-                }
+                IConsultable<int> consulta = FactoryConsulta.ObtenerConsultaFiltrada(
+                    nombreFiltro, ConsultaDinamicaHelper.GetConsulta(), valorFiltroReal);
+
+                ConsultaDinamicaHelper.SetConsulta(consulta);
 
                 ConsultaDinamicaHelper.AddFiltro(filtro);
                 

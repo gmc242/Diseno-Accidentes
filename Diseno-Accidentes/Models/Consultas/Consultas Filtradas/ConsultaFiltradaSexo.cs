@@ -43,12 +43,22 @@ namespace Diseno_Accidentes.Models.Consultas
             {
                 int indexSF = consulta.ObtenerFiltros().IndexOf("s.Nombre");
                 int indexFF = consulta.ObtenerFiltros().Substring(indexSF).IndexOf("AND");
-                indexFF = (indexFF == -1) ? consulta.ObtenerFiltros().Length : indexFF;
-                string filtros = consulta.ObtenerFiltros().Substring(0, indexSF) + " (s.Nombre = '" + sexo_str + "' OR " +
-                    consulta.ObtenerFiltros().Substring(indexSF, (indexFF - indexSF)) + ")"
-                    + consulta.ObtenerFiltros().Substring(indexFF);
+                indexFF = (indexFF == -1) ? consulta.ObtenerFiltros().Length : indexSF + indexFF;
 
-                return filtros;
+                string filtros = consulta.ObtenerFiltros().Substring(0, indexSF) + " (s.Nombre = '" + sexo_str + "' OR " +
+                    consulta.ObtenerFiltros().Substring(indexSF, (indexFF - indexSF)) + ")";
+
+                try
+                {
+                    filtros += " " + consulta.ObtenerFiltros().Substring(indexFF);
+                    return filtros;
+                }
+                catch(Exception e)
+                {
+                    return filtros;
+                }
+
+                
             }
             else { return consulta.ObtenerFiltros() + " " + ObtenerEnlace() + " s.Nombre = '" + sexo_str + "'"; }
             

@@ -5,20 +5,18 @@ using System.Web;
 
 namespace Diseno_Accidentes.Models.Consultas.Consultas_Agrupadas
 {
-    public class ConsultaAgrupadaLesion : ConsultaAgrupada
+    public class ConsultaAgrupadaEdad : ConsultaAgrupada
     {
-        public ConsultaAgrupadaLesion() : base("l.Descripcion") { }
+        public ConsultaAgrupadaEdad() : base("p.Edad") { }
 
         public override string ObtenerHeader()
         {
-            return base.ObtenerHeader() + " AS lesion";
+            return base.ObtenerHeader() + " AS edad";
         }
 
         public override string ObtenerMiddle()
         {
-            return "FROM Accidente a " +
-                "INNER JOIN Lesion l " +
-                "ON a.Lesion = l.ID ";
+            return base.ObtenerMiddle() + " INNER JOIN Persona p ON a.Persona = p.ID";
         }
     }
 }

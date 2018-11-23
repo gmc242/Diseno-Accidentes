@@ -4,33 +4,38 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace Diseno_Accidentes.Models
+namespace Diseno_Accidentes.Models.Consultas.Consultas_Agrupadas
 {
-    // Clase que hace como objeto Composite en el patrón Composite
-    // El uso del patrón se justifica por el fin de aplicarlo, que es tratar una estructura compuesta como una simple
-    public abstract class ConsultaFiltrada<T> : IConsultable<int>
+    // Abstract Decorator 
+    public abstract class ConsultaAgrupada : IConsultable<int>
     {
-        protected IConsultable<int> consulta;
-        protected T valorAIgualar;
+        protected Consulta consulta;
         protected SqlConnection conn = new SqlConnection("Data Source = DESKTOP-U0DSRU9\\DESARROLLOTEC; Initial Catalog = Accidentes; Integrated Security= True");
 
-        protected ConsultaFiltrada(IConsultable<int> consulta, T valor)
+        public ConsultaAgrupada(String campo)
         {
-            this.consulta = consulta;
-            this.valorAIgualar = valor;
+            this.consulta = new Consulta(campo);
         }
 
-        // Métodos para saber como armar la consulta con el patrón decorator
-        public abstract String ObtenerHeader();
-        public abstract String ObtenerFooter();
-        public abstract String ObtenerMiddle();
-        public abstract String ObtenerFiltros();
+        public virtual string ObtenerHeader()
+        {
+            return consulta.ObtenerHeader();
+        }
+
+        public virtual string ObtenerMiddle()
+        {
+            return consulta.ObtenerMiddle();
+        }
+
+        public virtual string ObtenerFooter() { return consulta.ObtenerFooter(); }
+
+        public virtual string ObtenerFiltros() { return consulta.ObtenerFiltros(); }
 
         public String ObtenerConsulta()
         {
             return ObtenerHeader() + " " + ObtenerMiddle() + " " + ObtenerFiltros() + " " + ObtenerFooter();
         }
-        
+
         public List<KeyValuePair<string, int>> AplicarConsulta()
         {
             List<KeyValuePair<String, int>> res = new List<KeyValuePair<String, int>>();
@@ -65,16 +70,5 @@ namespace Diseno_Accidentes.Models
 
         }
 
-        protected String ObtenerEnlace()
-        {
-            return (!YaFiltrada()) ? "WHERE" : (YaEnConsulta()) ? "OR " : "AND ";
-        }
-
-        protected Boolean YaFiltrada()
-        {
-            return consulta.ObtenerConsulta().Contains("WHERE");
-        }
-
-        protected abstract Boolean YaEnConsulta();
     }
 }

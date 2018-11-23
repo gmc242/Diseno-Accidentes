@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Diseno_Accidentes.Models.Consultas.Consultas_Agrupadas
 {
-    public class ConsultaAgrupadaRol : Consulta
+    public class ConsultaAgrupadaRol : ConsultaAgrupada
     {
         public ConsultaAgrupadaRol() : base("r.NombreRol") { }
 

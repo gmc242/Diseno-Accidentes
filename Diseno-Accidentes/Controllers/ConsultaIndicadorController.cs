@@ -15,6 +15,7 @@ namespace Diseno_Accidentes.Controllers
         // GET: ConsultaPredeterminada
         public ActionResult Index()
         {
+            ViewData["indicadores"] = ConsultaIndicadorHelper.GetIndicadores();
             return View();
         }
 
@@ -23,32 +24,12 @@ namespace Diseno_Accidentes.Controllers
         public JsonResult RealizarConsulta(Object indicador)
         {
             string indicador_str = ((String[])indicador)[0];
-            switch (indicador_str)
-            {
-                case "sexo":
-                    {
-                        ConsultaIndicadorHelper.SetConsulta(new ConsultaAgrupadaSexo());
-                        break;
-                    }
-                case "lesion":
-                    {
-                        ConsultaIndicadorHelper.SetConsulta(new ConsultaAgrupadaLesion());
-                        break;
-                    }
-                case "rol":
-                    {
-                        ConsultaIndicadorHelper.SetConsulta(new ConsultaAgrupadaRol());
-                        break;
-                    }
-                case "provincia":
-                    {
-                        ConsultaIndicadorHelper.SetConsulta(new ConsultaAgrupadaProvincia());
-                        break;
-                    }
-                default:
-                    return Json("");
-            }
+
+            IConsultable<int> consulta = FactoryConsulta.ObtenerConsultaAgrupada(indicador_str);
+            ConsultaIndicadorHelper.SetConsulta(consulta);
+
             return Json(ConsultaIndicadorHelper.GetConsulta().AplicarConsulta());
+
         }
     }
 }

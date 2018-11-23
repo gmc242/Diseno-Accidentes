@@ -186,8 +186,10 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controlador\ConsultaDinamicaHelper.cs" />
     <Compile Include="Controlador\ConsultaIndicadorHelper.cs" />
+    <Compile Include="Controlador\FactoryConsulta.cs" />
     <Compile Include="Controllers\ConsultaDinamicaController.cs" />
     <Compile Include="Controllers\ConsultaIndicadorController.cs" />
+    <Compile Include="Controllers\ConsultaObserverController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -196,14 +198,25 @@
     <Compile Include="Models\Accidente.cs" />
     <Compile Include="Models\Canton.cs" />
     <Compile Include="Models\Consultas\Consulta.cs" />
+    <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupada.cs" />
     <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaAnio.cs" />
+    <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaDia.cs" />
+    <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaEdad.cs" />
+    <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaEdadQuinquenal.cs" />
     <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaLesion.cs" />
+    <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaMes.cs" />
     <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaProvincia.cs" />
     <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaRol.cs" />
     <Compile Include="Models\Consultas\Consultas Agrupadas\ConsultaAgrupadaSexo.cs" />
     <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltrada.cs" />
     <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaAnios.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaCanton.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaDia.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaDistrito.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaEdad.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaEdadQuinquenal.cs" />
     <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaLesion.cs" />
+    <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaMes.cs" />
     <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaProvincia.cs" />
     <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaRol.cs" />
     <Compile Include="Models\Consultas\Consultas Filtradas\ConsultaFiltradaSexo.cs" />
@@ -311,10 +324,10 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\ConsultaDinamica\Index.cshtml" />
     <Content Include="Views\ConsultaIndicador\Index.cshtml" />
+    <Content Include="Views\ConsultaObserver\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ConsultaObserver\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

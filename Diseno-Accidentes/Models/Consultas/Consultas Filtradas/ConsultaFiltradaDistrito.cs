@@ -5,10 +5,9 @@ using System.Web;
 
 namespace Diseno_Accidentes.Models.Consultas.Consultas_Filtradas
 {
-    public class ConsultaFiltradaProvincia : ConsultaFiltrada<String>
+    public class ConsultaFiltradaDistrito : ConsultaFiltrada<String>
     {
-
-        public ConsultaFiltradaProvincia(IConsultable<int> consultaP, String provincia) : base(consultaP, provincia) { }
+        public ConsultaFiltradaDistrito(IConsultable<int> consultaP, String distrito) : base(consultaP, distrito) { }
 
         public override string ObtenerHeader()
         {
@@ -17,20 +16,13 @@ namespace Diseno_Accidentes.Models.Consultas.Consultas_Filtradas
 
         public override string ObtenerMiddle()
         {
-            if (consulta.ObtenerMiddle().Contains("Provincia pr"))
+            if (consulta.ObtenerMiddle().Contains("Distrito d"))
             {
                 return consulta.ObtenerMiddle();
             }
             else
             {
-                // Si el distrito y el cantón ya existen como parte de los "INNER JOIN" se deben omitir
-                String middleDistrito = (consulta.ObtenerMiddle().Contains("Distrito d")) ? "" 
-                    : " INNER JOIN Distrito d ON a.Distrito = d.ID";
-                String middleCanton = (consulta.ObtenerMiddle().Contains("Canton c")) ? ""
-                    : " INNER JOIN Canton c ON d.Canton = c.ID";
-
-                return consulta.ObtenerMiddle() + middleDistrito + 
-                    middleCanton + " INNER JOIN Provincia pr ON c.Provincia = pr.ID";
+                return consulta.ObtenerMiddle() + " INNER JOIN Distrito d ON a.Distrito = d.ID";
             }
         }
 
@@ -41,16 +33,17 @@ namespace Diseno_Accidentes.Models.Consultas.Consultas_Filtradas
 
         public override string ObtenerFiltros()
         {
-            String provincia_str = valorAIgualar.ToString().Replace("_", " ");
+            String distrito_str = valorAIgualar.ToString().Replace("_", " ");
 
             // Si los filtros ya contienen algún filtro del mismo tipo, debe usar un or en una posición inteligente
             if (YaEnConsulta())
             {
-                int indexSF = consulta.ObtenerFiltros().IndexOf("pr.Nombre");
+
+                int indexSF = consulta.ObtenerFiltros().IndexOf("d.Nombre");
                 int indexFF = consulta.ObtenerFiltros().Substring(indexSF).IndexOf("AND");
                 indexFF = (indexFF == -1) ? consulta.ObtenerFiltros().Length : indexSF + indexFF;
 
-                string filtros = consulta.ObtenerFiltros().Substring(0, indexSF) + " (pr.Nombre = '" + provincia_str + "' OR " +
+                string filtros = consulta.ObtenerFiltros().Substring(0, indexSF) + " (d.Nombre = '" + distrito_str + "' OR " +
                     consulta.ObtenerFiltros().Substring(indexSF, (indexFF - indexSF)) + ")";
 
                 try
@@ -65,15 +58,14 @@ namespace Diseno_Accidentes.Models.Consultas.Consultas_Filtradas
             }
             else
             {
-                return consulta.ObtenerFiltros() + " " + ObtenerEnlace() + " pr.Nombre = '" + provincia_str + "'";
+                return consulta.ObtenerFiltros() + " " + ObtenerEnlace() + " d.Nombre = '" + distrito_str + "'";
             }
         }
 
 
         protected override Boolean YaEnConsulta()
         {
-            return consulta.ObtenerFiltros().Contains("pr.Nombre");
+            return consulta.ObtenerFiltros().Contains("d.Nombre");
         }
     }
-
 }

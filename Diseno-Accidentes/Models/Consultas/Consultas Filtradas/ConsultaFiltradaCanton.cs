@@ -5,10 +5,9 @@ using System.Web;
 
 namespace Diseno_Accidentes.Models.Consultas.Consultas_Filtradas
 {
-    public class ConsultaFiltradaProvincia : ConsultaFiltrada<String>
+    public class ConsultaFiltradaCanton : ConsultaFiltrada<String>
     {
-
-        public ConsultaFiltradaProvincia(IConsultable<int> consultaP, String provincia) : base(consultaP, provincia) { }
+        public ConsultaFiltradaCanton(IConsultable<int> consultaP, String canton) : base(consultaP, canton) { }
 
         public override string ObtenerHeader()
         {
@@ -17,20 +16,17 @@ namespace Diseno_Accidentes.Models.Consultas.Consultas_Filtradas
 
         public override string ObtenerMiddle()
         {
-            if (consulta.ObtenerMiddle().Contains("Provincia pr"))
+            if (consulta.ObtenerMiddle().Contains("Canton c"))
             {
                 return consulta.ObtenerMiddle();
             }
             else
             {
                 // Si el distrito y el cantón ya existen como parte de los "INNER JOIN" se deben omitir
-                String middleDistrito = (consulta.ObtenerMiddle().Contains("Distrito d")) ? "" 
+                String middleDistrito = (consulta.ObtenerMiddle().Contains("Distrito d")) ? ""
                     : " INNER JOIN Distrito d ON a.Distrito = d.ID";
-                String middleCanton = (consulta.ObtenerMiddle().Contains("Canton c")) ? ""
-                    : " INNER JOIN Canton c ON d.Canton = c.ID";
 
-                return consulta.ObtenerMiddle() + middleDistrito + 
-                    middleCanton + " INNER JOIN Provincia pr ON c.Provincia = pr.ID";
+                return consulta.ObtenerMiddle() + middleDistrito + " INNER JOIN Canton c ON d.Canton = c.ID";
             }
         }
 
@@ -41,16 +37,16 @@ namespace Diseno_Accidentes.Models.Consultas.Consultas_Filtradas
 
         public override string ObtenerFiltros()
         {
-            String provincia_str = valorAIgualar.ToString().Replace("_", " ");
+            String canton_str = valorAIgualar.ToString().Replace("_", " ");
 
             // Si los filtros ya contienen algún filtro del mismo tipo, debe usar un or en una posición inteligente
             if (YaEnConsulta())
             {
-                int indexSF = consulta.ObtenerFiltros().IndexOf("pr.Nombre");
+                int indexSF = consulta.ObtenerFiltros().IndexOf("c.Nombre");
                 int indexFF = consulta.ObtenerFiltros().Substring(indexSF).IndexOf("AND");
                 indexFF = (indexFF == -1) ? consulta.ObtenerFiltros().Length : indexSF + indexFF;
 
-                string filtros = consulta.ObtenerFiltros().Substring(0, indexSF) + " (pr.Nombre = '" + provincia_str + "' OR " +
+                string filtros = consulta.ObtenerFiltros().Substring(0, indexSF) + " (c.Nombre = '" + canton_str + "' OR " +
                     consulta.ObtenerFiltros().Substring(indexSF, (indexFF - indexSF)) + ")";
 
                 try
@@ -62,18 +58,18 @@ namespace Diseno_Accidentes.Models.Consultas.Consultas_Filtradas
                 {
                     return filtros;
                 }
+                
             }
             else
             {
-                return consulta.ObtenerFiltros() + " " + ObtenerEnlace() + " pr.Nombre = '" + provincia_str + "'";
+                return consulta.ObtenerFiltros() + " " + ObtenerEnlace() + " c.Nombre = '" + canton_str + "'";
             }
         }
 
 
         protected override Boolean YaEnConsulta()
         {
-            return consulta.ObtenerFiltros().Contains("pr.Nombre");
+            return consulta.ObtenerFiltros().Contains("c.Nombre");
         }
     }
-
 }

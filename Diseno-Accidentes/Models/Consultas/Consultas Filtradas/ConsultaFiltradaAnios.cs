@@ -42,7 +42,7 @@ namespace Diseno_Accidentes.Models.Consultas
 
         protected override Boolean YaEnConsulta()
         {
-            return consulta.ObtenerFiltros().Contains("Anio =");
+            return consulta.ObtenerFiltros().Contains("an.Numero");
         }
     }
 }

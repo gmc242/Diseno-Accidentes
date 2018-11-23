@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Diseno_Accidentes.Models.Consultas.Consultas_Agrupadas;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace Diseno_Accidentes.Models.Consultas
 {
-    public class ConsultaAgrupadaProvincia : Consulta
+    public class ConsultaAgrupadaProvincia : ConsultaAgrupada
     {
         public ConsultaAgrupadaProvincia() : base("pr.Nombre") { }
 

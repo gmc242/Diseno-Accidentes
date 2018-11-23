@@ -1,0 +1,40 @@
+﻿
+<h2>Consulta con Gráficas en Tiempo Real</h2>
+<div class="container">
+
+    <div>
+        <p>Seleccione los indicadores que desea utilizar para la consulta.</p>
+    </div>
+
+    <div class="row">
+        <button class="col btn-dark" style="background-color: rebeccapurple" value="rol" onclick="anadirIndicador(this)">Rol</button>
+        <button class="col btn-dark" style="background-color: rebeccapurple" value="sexo" onclick="anadirIndicador(this)">Sexo</button>
+        <button class="col btn-dark" style="background-color: rebeccapurple" value="lesion" onclick="anadirIndicador(this)">Lesion</button>
+    </div>
+
+    <br />
+
+    <div class="container-fluid">
+        <div class="row" id="contenedorPrincipal"></div>
+        <br />
+        <div class="container-fluid">
+            <p>Gráfico de Columnas</p>
+            <div class="row justify-content-xl-center" id="contenedorChartColumn" style="width:100% ; height:400px"></div>
+        </div>
+        <br />
+        <div class="container-fluid">
+            <p>Gráfico de Barras</p>
+            <div class="row justify-content-xl-center" id="contenedorChartBar" style="width:100%; height:400px"></div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        inicializarObserver();
+    });
+</script>
+
+
+

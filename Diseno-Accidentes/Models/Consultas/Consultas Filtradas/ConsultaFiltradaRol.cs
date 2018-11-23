@@ -38,17 +38,27 @@ namespace Diseno_Accidentes.Models.Consultas
         {
             String rol_str = valorAIgualar.ToString().Replace("_", " ");
 
+
+
             // Si los filtros ya contienen algún filtro del mismo tipo, debe usar un or en una posición inteligente
             if (YaEnConsulta())
             {
                 int indexSF = consulta.ObtenerFiltros().IndexOf("r.NombreRol");
                 int indexFF = consulta.ObtenerFiltros().Substring(indexSF).IndexOf("AND");
-                indexFF = (indexFF == -1) ? consulta.ObtenerFiltros().Length : indexFF;
-                string filtros = consulta.ObtenerFiltros().Substring(0, indexSF) + " (r.NombreRol = '" + rol_str + "' OR " +
-                    consulta.ObtenerFiltros().Substring(indexSF, (indexFF - indexSF)) + ")"
-                    + consulta.ObtenerFiltros().Substring(indexFF);
+                indexFF = (indexFF == -1) ? consulta.ObtenerFiltros().Length : indexSF + indexFF;
 
-                return filtros;
+                string filtros = consulta.ObtenerFiltros().Substring(0, indexSF) + " (r.NombreRol = '" + rol_str + "' OR " +
+                    consulta.ObtenerFiltros().Substring(indexSF, (indexFF - indexSF)) + ")";
+
+                try
+                {
+                    filtros += " " + consulta.ObtenerFiltros().Substring(indexFF);
+                    return filtros;
+                }
+                catch (Exception e)
+                {
+                    return filtros;
+                }
             }
             else
             {

@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    List<String> indicadores = ViewData["indicadores"] as List<String>;
 }
 
 <h2>Consultas por Indicadores</h2>
@@ -9,30 +10,20 @@
 
     <div class="container">
         <div class="d-flex flex-row">
-            <div class="mr-1">
-                <button value="rol" class="btn btn-dark" style="background-color: rebeccapurple" onclick="consultaIndicador(this)">Tipo de Rol</button>
-            </div>
-            <div class="mr-1">
-                <button value="lesion" class="btn btn-dark" style="background-color: rebeccapurple" onclick="consultaIndicador(this)">Tipo de Lesión</button>
-            </div>
-            <div class="mr-1">
-                <button value="sexo" class="btn btn-dark" style="background-color: rebeccapurple" onclick="consultaIndicador(this)">Sexo</button>
-            </div>
-            <div class="mr-1">
-                <button value="provincia" class="btn btn-dark" style="background-color: rebeccapurple" onclick="consultaIndicador(this)">Provincias</button>
-            </div>
+            @foreach(String indicador in indicadores)
+            {
+                <div class="mr-1">
+                    <button value="@indicador" class="btn btn-dark" style="background-color: rebeccapurple" onclick="consultaIndicador(this)">@indicador</button>
+                </div>
+            }
         </div>
     </div>
 
     <br />
 
-    <div class="row">
-        <div class="col">
-            <div class="row" id="contenedorPrincipal"></div>
-        </div>
-        <div class="col">
-            <div class="row justify-content-xl-center" id="contenedorChart"></div>
-        </div>
+    <div class="container-fluid">
+        <div class="row" id="contenedorPrincipal"></div>
+        <div class="row justify-content-xl-center" id="contenedorChart" style="width:100%"></div>
     </div>
 
 </div>
