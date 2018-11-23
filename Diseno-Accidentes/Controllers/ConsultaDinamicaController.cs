@@ -62,6 +62,38 @@ namespace Diseno_Accidentes.Controllers
         }
 
         [HttpPost]
+        public ActionResult AnadirFiltroMapa(String provincia)
+        {
+            String nombreFiltro = "Provincia";
+            String valorFiltro;
+
+            if (provincia == "SAN JOSE") { valorFiltro = "San Jose"; }
+            else
+            {
+                String valorFiltroN = provincia.ToLowerInvariant();
+                valorFiltro = char.ToUpper(valorFiltroN[0]) + valorFiltroN.Substring(1);
+            }
+
+            String valorFiltroReal = valorFiltro.Replace(" ", "_");
+            Console.WriteLine(provincia);
+            String filtro = nombreFiltro + " = " + valorFiltro;
+
+            // Maneja cuando el filtro ya existe
+            if (!ConsultaDinamicaHelper.GetFiltrosActuales().Contains(filtro))
+            {
+                ConsultaDinamicaHelper.SetConsulta(new ConsultaFiltradaProvincia(ConsultaDinamicaHelper.GetConsulta(), valorFiltroReal));
+
+                ConsultaDinamicaHelper.AddFiltro(filtro);
+            }
+
+            ViewData["filtros"] = ConsultaDinamicaHelper.GetFiltros();
+            ViewData["filtrosUsados"] = ConsultaDinamicaHelper.GetFiltrosActuales();
+
+            return View("Index");
+        }
+
+
+        [HttpPost]
         public JsonResult RealizarConsulta(FormCollection form)
         {
             var anioInicial = form["anioInicial"];

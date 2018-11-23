@@ -4,6 +4,33 @@
     List<String> filtrosUsados = ViewData["filtrosUsados"] as List<String>;
 }
 
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico">
+
+    <title>Custom Icons Tutorial - Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        #map {
+            width: 350px;
+            height: 300px;
+        }
+    </style>
+
+
+</head>
+
+
 <h2>Consultas Dinámicas por Ubicación Geográfica</h2>
 
 <br />
@@ -16,7 +43,207 @@
 
             <div class="col">
                 <p>Seleccione el o los puntos que desea consultar.</p>
-                <div class="row" id="contenedorMapa">
+
+                <div class="row" id="map" >
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+                    <script type="text/javascript" language="javascript">
+
+
+
+        //var Provincias ="http://daticos-geotec.opendata.arcgis.com/datasets/6e2ec42966d54e7087d9da25ad78abe0_0.geojson";
+
+        //var Cantones = "http://daticos-geotec.opendata.arcgis.com/datasets/249bc8711c33493a90b292b55ed3abad_0.geojson";
+
+        //var Distritos = "http://daticos-geotec.opendata.arcgis.com/datasets/741bdd9fa2ca4d8fbf1c7fe945f8c916_0.geojson";
+
+        function initMap(filterName) {
+
+            var apiUrl;
+
+            switch (filterName) {
+                case "P":
+                    apiUrl = "http://daticos-geotec.opendata.arcgis.com/datasets/6e2ec42966d54e7087d9da25ad78abe0_0.geojson";
+                    break;
+                case "C":
+                    apiUrl = "http://daticos-geotec.opendata.arcgis.com/datasets/249bc8711c33493a90b292b55ed3abad_0.geojson";
+                    break;
+                case "D":
+                    apiUrl = "http://daticos-geotec.opendata.arcgis.com/datasets/741bdd9fa2ca4d8fbf1c7fe945f8c916_0.geojson";
+                    break;
+            }
+            var counties = $.ajax({
+                url: apiUrl,
+                dataType: "json",
+                success: console.log("County data successfully loaded."),
+                error: function (xhr) {
+                    alert(xhr.statusText)
+                }
+            })
+            // Specify that this code should run once the county data request is complete
+            $.when(counties).done(function () {
+                var map;
+
+                map = L.map('map');
+
+                map.setView([10.001, -84.078], 7.5);
+
+                map.createPane('labels');
+
+                // This pane is above markers but below popups
+                map.getPane('labels').style.zIndex = 650;
+
+                // Layers in this pane are non-interactive and do not obscure mouse/touch events
+                map.getPane('labels').style.pointerEvents = 'none';
+
+                var cartodbAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>';
+
+                var positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+                    attribution: cartodbAttribution
+                }).addTo(map);
+
+                var positronLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+                    attribution: cartodbAttribution,
+                    pane: 'labels'
+                }).addTo(map);
+
+
+                // define the styles for the garden layer (unselected and selected)
+                function style(feature) {
+                    return {
+                        fillColor: 'green',
+                        fillOpacity: 0.5,
+                        weight: 2,
+                        opacity: 1,
+                        color: '#ffffff',
+                        dashArray: '3'
+                    };
+                }
+
+                var stylelayer = {
+                    defecto: {
+                        color: "red",
+                        opacity: 1,
+                        fillcolor: "red",
+                        fillOpacity: 0.1,
+                        weight: 0.5
+                    },
+                    reset: {
+                        color: "red",
+                        opacity: 0.4,
+                        weight: 1
+                    },
+                    highlight: {
+                        weight: 5,
+                        color: '#0D8BE7',
+                        dashArray: '',
+                        fillOpacity: 0.7
+                    },
+                    selected: {
+                        color: "blue",
+                        opacity: 0.3,
+                        weight: 0.5
+                    }
+
+                }
+
+
+                function forEachFeature(feature, layer) {
+
+                    var popupContent;
+
+                    var datos;
+
+
+                    switch (filterName) {
+                        case "P":
+                            popupContent = "<p><b>Nombre: </b>" + feature.properties.NPROVINCIA + '</p>';
+                            break;
+                        case "C":
+                            var popupContent = "<p><b>Provincia: </b>" + feature.properties.NOM_PROV +
+                                "</br><b>Canton</b>: " + feature.properties.NOM_CANT_1 + '</p>';
+                            break;
+                        case "D":
+                            var popupContent = "<p><b>Provincia: </b>" + feature.properties.NOM_PROV +
+                                "</br>Canton: " + feature.properties.NOM_CANT +
+                                "</br>Distrito: " + feature.properties.NOM_DIST + '</p>';
+                            break;
+                    }
+
+
+                    layer.bindPopup(popupContent);
+
+                    try {
+                        let that = this;
+                        layer.on({
+                            click: function (e) {
+
+                                var $layer = e.target.feature;
+
+                                switch (filterName) {
+                                    case "P":
+                                        datos = "{ 'Provincia': '"+$layer.properties.NPROVINCIA+"' }";
+                                        break;
+                                    case "C":
+                                        datos = JSON.stringify({
+                                            "Provincia": $layer.properties.NOM_PROV,
+                                            "Canton": $layer.properties.NOM_CANT_1
+                                        });
+                                        break;
+                                    case "D":
+                                        datos = JSON.stringify({
+                                            "Provincia": $layer.properties.NOM_PROV,
+                                            "Canton": $layer.properties.NOM_CANT,
+                                            "Distrito": $layer.properties.NOM_DIST
+                                        });
+                                        break;
+                                }
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("AnadirFiltroMapa")",
+                                    cache: false,
+                                    contentType: "application/json",
+                                    data: datos,
+                                    dataType: "json",
+                                    success: getSuccess,
+                                    error: getFail
+                                });
+
+                            }
+                        });
+                        } catch (e) {
+                            alert(e);
+                        }
+                        function getSuccess(data, textStatus, jqXHR) {
+                            alert("Filtro agregado");
+                        };
+                        function getFail(jqXHR, textStatus, errorThrown) {
+                            alert(jqXHR.status);
+                        };
+
+
+                }
+
+
+
+
+                var kyCounties = L.geoJSON(counties.responseJSON, {
+                    style: style,
+                    onEachFeature: forEachFeature
+                }).addTo(map);
+
+            });
+        }
+
+                    </script>
+
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            initMap("P")
+                        });
+                    </script>
 
                 </div>
             </div>

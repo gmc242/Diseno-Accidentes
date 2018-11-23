@@ -305,3 +305,4 @@ function inicializarObserver() {
     observable.anadirObservador(obs2);
 }
 
+// Funcionalidad con respecto al mapa
